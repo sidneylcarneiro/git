@@ -1,0 +1,39 @@
+Versionamento Git
+
+git clone
+git commit
+git pull
+git push
+
+◙ Configuração de safe directory
+
+sudo git config --global --add safe.directory /mnt/d
+sudo git config --global --add safe.directory /mnt/d/*
+
+◙ Configuração de usuário e senha do github
+
+git config --global user.name "sidneylcarneiro"
+git config --global user.email "sidneylcarneiro@yahoo.com"
+
+◙ Configuração de branch padrão
+	◙ consultar branch
+		git config init.defaultbranch
+	◙ alterar branch
+		git config --global init.defaultbranch main
+
+◙ Listar todas as configurações globais feitas
+	◙ git config --global --list
+
+
+◙ Configuração de token do GitHub para git
+
+profile > settings > developer settings > Personal access tokens (classic) > Generate New Token For general use
+
+	◙ Serve para liberar acesso a clonar repositórios privados usando comando:
+		git clone URL-do-repositório.git
+
+◙ Armazenar o token para não precisar digitar novamente em máquinas confiáveis
+
+git config --global credential.helper store
+
+◙ Podemos autenticar com GitHub via chave SSH
