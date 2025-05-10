@@ -2,10 +2,11 @@
 
 ## 🔧 Inicialização e Clonagem
 
-| Comando           | Descrição                                             |
-| ----------------- | ----------------------------------------------------- |
-| `git init`        | Inicializa um novo repositório Git em uma pasta local |
-| `git clone <URL>` | Clona um repositório remoto para sua máquina local    |
+| Comando                                       | Descrição                                             |
+| --------------------------------------------- | ----------------------------------------------------- |
+| `git init`                                    | Inicializa um novo repositório Git em uma pasta local |
+| `git clone <URL>`                             | Clona um repositório remoto para sua máquina local    |
+| `git clone --single-branch -b <branch> <URL>` | Clona apenas uma branch específica                    |
 
 ---
 
@@ -43,11 +44,9 @@ sudo git config --global --add safe.directory /mnt/d/*
 git config --global credential.helper store
 ```
 
-## 🔒 Autenticação
+---
 
-Pode ser feita com **token**, **chave SSH** ou **usuário e senha**
-
-Para SSH:
+## 🔒 Autenticação com SSH
 
 ```bash
 ssh-keygen -t ed25519 -C "seu_email@example.com"
@@ -60,67 +59,57 @@ ssh-add ~/.ssh/id_ed25519
 ## 🔍 Verificar Configurações
 
 ```bash
-git config --global --list     # Lista todas as configurações globais
-git config --system --list     # Lista configurações do sistema
-git config --local --list      # Lista configurações do repositório atual
+git config --global --list     # Configurações globais
+git config --system --list     # Configurações do sistema
+git config --local --list      # Configurações do repositório atual
 ```
 
 ---
 
 ## 📌 Gerenciamento de Repositórios
 
-| Comando                    | Descrição                                                         |
-| -------------------------- | ----------------------------------------------------------------- |
-| `git status`               | Verifica o estado dos arquivos no diretório                       |
-| `git add <arquivo>`        | Adiciona arquivos específicos para serem commitados               |
-| `git add .`                | Adiciona **todos os arquivos modificados**                        |
-| `git commit -m "mensagem"` | Registra um snapshot dos arquivos no histórico                    |
-| `git log`                  | Mostra o histórico de commits                                     |
-| `git show`                 | Mostra os detalhes de um commit                                   |
-| `git diff`                 | Mostra as diferenças entre arquivos modificados e o último commit |
+| Comando                    | Descrição                                         |
+| -------------------------- | ------------------------------------------------- |
+| `git status`               | Verifica o estado dos arquivos                    |
+| `git add <arquivo>`        | Adiciona um arquivo específico                    |
+| `git add .`                | Adiciona todos os arquivos modificados            |
+| `git commit -m "mensagem"` | Salva as alterações com uma mensagem descritiva   |
+| `git commit --amend`       | Altera o último commit (mensagem ou arquivos)     |
+| `git log`                  | Mostra o histórico de commits                     |
+| `git show`                 | Detalhes de um commit                             |
+| `git diff`                 | Diferenças entre arquivos e último commit         |
+| `git restore <arquivo>`    | Restaura alterações em um arquivo antes do commit |
+| `git reset <arquivo>`      | Remove arquivo da staging area                    |
 
 ---
 
-## 🌐 Conexão com Repositório Remoto
+## 🌐 Repositório Remoto
 
-| Comando                       | Descrição                                                  |
-| ----------------------------- | ---------------------------------------------------------- |
-| `git remote -v`               | Lista os repositórios remotos configurados                 |
-| `git remote add origin <URL>` | Conecta o repositório local a um remoto                    |
-| `git push -u origin main`     | Envia os commits para o repositório remoto                 |
-| `git pull`                    | Baixa as alterações do repositório remoto e atualiza local |
-| `git fetch`                   | Baixa as alterações do repositório remoto sem aplicar      |
+| Comando                       | Descrição                                      |
+| ----------------------------- | ---------------------------------------------- |
+| `git remote -v`               | Lista os repositórios remotos                  |
+| `git remote add origin <URL>` | Adiciona repositório remoto                    |
+| `git push -u origin main`     | Envia commits para o repositório remoto        |
+| `git pull`                    | Atualiza a branch local com alterações remotas |
+| `git fetch`                   | Baixa dados do repositório remoto sem aplicar  |
 
 ---
 
-### 🔀 Lidando com Erro: "refusing to merge unrelated histories"
-
-Caso receba esse erro ao usar `git pull`:
-
-```bash
-fatal: refusing to merge unrelated histories
-```
-
-Utilize:
+### 🔀 Erro: "refusing to merge unrelated histories"
 
 ```bash
 git pull origin main --allow-unrelated-histories
 ```
 
-Isso força a junção de históricos diferentes (útil quando repositório local e remoto foram criados de forma independente).
-
 ---
 
-### 🔁 Sincronizando Branch Local com Remota
-
-Se você iniciou com o branch `master` local e quer alinhar com `main` do GitHub:
+### 🔁 Alinhar Branch Local com o Remoto
 
 ```bash
-git branch -m master main                      # Renomeia master para main
-git branch --set-upstream-to=origin/main main # Define rastreamento com origin/main
+git branch -m master main                      # Renomeia branch local
+git branch -M main                             # Força renomeação (se já existir)
+git branch --set-upstream-to=origin/main main # Seta rastreamento
 ```
-
-Depois disso, os comandos `git pull` e `git push` funcionam normalmente.
 
 ---
 
@@ -128,29 +117,53 @@ Depois disso, os comandos `git pull` e `git push` funcionam normalmente.
 
 | Comando                  | Descrição                        |
 | ------------------------ | -------------------------------- |
-| `git branch`             | Lista branches locais            |
-| `git branch <nome>`      | Cria nova branch                 |
-| `git checkout <branch>`  | Troca para a branch especificada |
-| `git checkout -b <nome>` | Cria e muda para nova branch     |
-| `git merge <branch>`     | Mescla uma branch na atual       |
+| `git branch`             | Lista as branches locais         |
+| `git branch <nome>`      | Cria uma nova branch             |
+| `git checkout <branch>`  | Troca para outra branch          |
+| `git checkout -b <nome>` | Cria e muda para a nova branch   |
 | `git branch -d <nome>`   | Deleta uma branch local          |
+| `git merge <branch>`     | Une branch especificada na atual |
 
 ---
 
-## 📦 Stash (Guardar alterações temporárias)
+## 📦 Stash (Alterações Temporárias)
 
-| Comando           | Descrição                                          |
-| ----------------- | -------------------------------------------------- |
-| `git stash`       | Salva alterações não commitadas para voltar depois |
-| `git stash apply` | Restaura alterações salvas                         |
-| `git stash list`  | Lista os stashes salvos                            |
+| Comando           | Descrição                       |
+| ----------------- | ------------------------------- |
+| `git stash`       | Salva alterações não commitadas |
+| `git stash list`  | Mostra as alterações salvas     |
+| `git stash apply` | Restaura sem remover da lista   |
+| `git stash pop`   | Restaura e remove da lista      |
 
 ---
 
 ## 🧹 Revertendo Mudanças
 
-| Comando                     | Descrição                                        |
-| --------------------------- | ------------------------------------------------ |
-| `git reset --hard`          | Remove todas as alterações locais não commitadas |
-| `git checkout -- <arquivo>` | Restaura arquivo ao último commit                |
-| `git revert <commit>`       | Cria um novo commit que desfaz outro             |
+| Comando                      | Descrição                                      |
+| ---------------------------- | ---------------------------------------------- |
+| `git reset --soft <commit>`  | Volta ao commit, mantendo staging e arquivos   |
+| `git reset --mixed <commit>` | Volta ao commit, limpa staging                 |
+| `git reset --hard <commit>`  | Volta ao commit e descarta todas as alterações |
+| `git checkout -- <arquivo>`  | Restaura arquivo do último commit              |
+| `git restore <arquivo>`      | Forma moderna de restaurar arquivo             |
+| `git revert <commit>`        | Cria novo commit que desfaz o anterior         |
+
+---
+
+## 🔂 Histórico de Commits e Recuperação
+
+| Comando      | Descrição                                           |
+| ------------ | --------------------------------------------------- |
+| `git reflog` | Exibe histórico de referências (commits anteriores) |
+
+---
+
+## 📛 Convenções de Nomeclatura de Branches
+
+* Use nomes curtos e descritivos.
+* Padrões comuns:
+
+  * `feature/login-api`
+  * `bugfix/fix-logout-error`
+  * `hotfix/security-patch`
+  * `release/v1.0.0`
