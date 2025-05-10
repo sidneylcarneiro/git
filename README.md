@@ -19,8 +19,8 @@ Clona um repositório remoto para sua máquina local
 ### 👤 Usuário
 
 ```bash
-git config --global user.name "sidneylcarneiro"
-git config --global user.email "sidneylcarneiro@yahoo.com"
+git config --global user.name "NOMEDEUSUARIO"
+git config --global user.email "EMAIL"
 
 ```
 
