@@ -2,17 +2,12 @@
 
 ## 🔧 Inicialização e Clonagem
 
-Comando
+| Comando           | Descrição                                             |
+| ----------------- | ----------------------------------------------------- |
+| `git init`        | Inicializa um novo repositório Git em uma pasta local |
+| `git clone <URL>` | Clona um repositório remoto para sua máquina local    |
 
-Descrição
-
-`git init`
-
-Inicializa um novo repositório Git em uma pasta local
-
-`git clone <URL>`
-
-Clona um repositório remoto para sua máquina local
+---
 
 ## 🧩 Configurações Globais
 
@@ -21,15 +16,13 @@ Clona um repositório remoto para sua máquina local
 ```bash
 git config --global user.name "NOMEDEUSUARIO"
 git config --global user.email "EMAIL"
-
 ```
 
 ### 🌿 Branch Padrão
 
 ```bash
-git config init.defaultbranch            # Consulta o nome da branch padrão
+git config init.defaultbranch                # Consulta o nome da branch padrão
 git config --global init.defaultbranch main  # Define 'main' como padrão
-
 ```
 
 ### 🔐 Diretórios Seguros
@@ -37,36 +30,32 @@ git config --global init.defaultbranch main  # Define 'main' como padrão
 ```bash
 sudo git config --global --add safe.directory /mnt/d
 sudo git config --global --add safe.directory /mnt/d/*
-
 ```
 
 ### 🪪 Token GitHub
 
--   Acesse: **GitHub > Settings > Developer Settings > Personal Access Tokens (classic)**
-    
--   Gere um novo token para clonar repositórios privados.
-    
+* Acesse: **GitHub > Settings > Developer Settings > Personal Access Tokens (classic)**
+* Gere um novo token para clonar repositórios privados.
 
 #### Armazenar o token para futuras autenticações:
 
 ```bash
 git config --global credential.helper store
-
 ```
 
 ## 🔒 Autenticação
 
--   ✅ Pode ser feita com **token**, **chave SSH** ou **usuário e senha**
-    
--   Para SSH:
-    
-    ```bash
-    ssh-keygen -t ed25519 -C "seu_email@example.com"
-    eval "$(ssh-agent -s)"
-    ssh-add ~/.ssh/id_ed25519
-    
-    ```
-    
+Pode ser feita com **token**, **chave SSH** ou **usuário e senha**
+
+Para SSH:
+
+```bash
+ssh-keygen -t ed25519 -C "seu_email@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+```
+
+---
 
 ## 🔍 Verificar Configurações
 
@@ -74,141 +63,94 @@ git config --global credential.helper store
 git config --global --list     # Lista todas as configurações globais
 git config --system --list     # Lista configurações do sistema
 git config --local --list      # Lista configurações do repositório atual
-
 ```
 
-----------
+---
 
 ## 📌 Gerenciamento de Repositórios
 
-Comando
+| Comando                    | Descrição                                                         |
+| -------------------------- | ----------------------------------------------------------------- |
+| `git status`               | Verifica o estado dos arquivos no diretório                       |
+| `git add <arquivo>`        | Adiciona arquivos específicos para serem commitados               |
+| `git add .`                | Adiciona **todos os arquivos modificados**                        |
+| `git commit -m "mensagem"` | Registra um snapshot dos arquivos no histórico                    |
+| `git log`                  | Mostra o histórico de commits                                     |
+| `git show`                 | Mostra os detalhes de um commit                                   |
+| `git diff`                 | Mostra as diferenças entre arquivos modificados e o último commit |
 
-Descrição
-
-`git status`
-
-Verifica o estado dos arquivos no diretório
-
-`git add <arquivo>`
-
-Adiciona arquivos específicos para serem commitados
-
-`git add .`
-
-Adiciona **todos os arquivos modificados**
-
-`git commit -m "mensagem"`
-
-Registra um snapshot dos arquivos no histórico
-
-`git log`
-
-Mostra o histórico de commits
-
-`git show`
-
-Mostra os detalhes de um commit
-
-`git diff`
-
-Mostra as diferenças entre arquivos modificados e o último commit
-
-----------
+---
 
 ## 🌐 Conexão com Repositório Remoto
 
-Comando
+| Comando                       | Descrição                                                  |
+| ----------------------------- | ---------------------------------------------------------- |
+| `git remote -v`               | Lista os repositórios remotos configurados                 |
+| `git remote add origin <URL>` | Conecta o repositório local a um remoto                    |
+| `git push -u origin main`     | Envia os commits para o repositório remoto                 |
+| `git pull`                    | Baixa as alterações do repositório remoto e atualiza local |
+| `git fetch`                   | Baixa as alterações do repositório remoto sem aplicar      |
 
-Descrição
+---
 
-`git remote -v`
+### 🔀 Lidando com Erro: "refusing to merge unrelated histories"
 
-Lista os repositórios remotos configurados
+Caso receba esse erro ao usar `git pull`:
 
-`git remote add origin <URL>`
+```bash
+fatal: refusing to merge unrelated histories
+```
 
-Conecta o repositório local a um remoto
+Utilize:
 
-`git push -u origin main`
+```bash
+git pull origin main --allow-unrelated-histories
+```
 
-Envia os commits para o repositório remoto
+Isso força a junção de históricos diferentes (útil quando repositório local e remoto foram criados de forma independente).
 
-`git pull`
+---
 
-Baixa as alterações do repositório remoto e atualiza local
+### 🔁 Sincronizando Branch Local com Remota
 
-`git fetch`
+Se você iniciou com o branch `master` local e quer alinhar com `main` do GitHub:
 
-Baixa as alterações do repositório remoto sem aplicar
+```bash
+git branch -m master main                      # Renomeia master para main
+git branch --set-upstream-to=origin/main main # Define rastreamento com origin/main
+```
 
-----------
+Depois disso, os comandos `git pull` e `git push` funcionam normalmente.
+
+---
 
 ## 🔁 Branches
 
-Comando
+| Comando                  | Descrição                        |
+| ------------------------ | -------------------------------- |
+| `git branch`             | Lista branches locais            |
+| `git branch <nome>`      | Cria nova branch                 |
+| `git checkout <branch>`  | Troca para a branch especificada |
+| `git checkout -b <nome>` | Cria e muda para nova branch     |
+| `git merge <branch>`     | Mescla uma branch na atual       |
+| `git branch -d <nome>`   | Deleta uma branch local          |
 
-Descrição
-
-`git branch`
-
-Lista branches locais
-
-`git branch <nome>`
-
-Cria nova branch
-
-`git checkout <branch>`
-
-Troca para a branch especificada
-
-`git checkout -b <nome>`
-
-Cria e muda para nova branch
-
-`git merge <branch>`
-
-Mescla uma branch na atual
-
-`git branch -d <nome>`
-
-Deleta uma branch local
-
-----------
+---
 
 ## 📦 Stash (Guardar alterações temporárias)
 
-Comando
+| Comando           | Descrição                                          |
+| ----------------- | -------------------------------------------------- |
+| `git stash`       | Salva alterações não commitadas para voltar depois |
+| `git stash apply` | Restaura alterações salvas                         |
+| `git stash list`  | Lista os stashes salvos                            |
 
-Descrição
-
-`git stash`
-
-Salva alterações não commitadas para voltar depois
-
-`git stash apply`
-
-Restaura alterações salvas
-
-`git stash list`
-
-Lista os stashes salvos
-
-----------
+---
 
 ## 🧹 Revertendo Mudanças
 
-Comando
-
-Descrição
-
-`git reset --hard`
-
-Remove todas as alterações locais não commitadas
-
-`git checkout -- <arquivo>`
-
-Restaura arquivo ao último commit
-
-`git revert <commit>`
-
-Cria um novo commit que desfaz outro
+| Comando                     | Descrição                                        |
+| --------------------------- | ------------------------------------------------ |
+| `git reset --hard`          | Remove todas as alterações locais não commitadas |
+| `git checkout -- <arquivo>` | Restaura arquivo ao último commit                |
+| `git revert <commit>`       | Cria um novo commit que desfaz outro             |
